@@ -1,0 +1,23 @@
+**docker快速搭建漏洞靶场指南
+##漏洞利用初探，修改requests请求参数远程执行命令
+----样例：
+           输入127.0.0.1&whoami            执行命令ping 127.0.0.1 执行命令whoami
+用户———————————————————————————————>网站——————————————————————————————————————————>
+---(网站本身有网络连接检测功能Ping a device)
+
+##vulhub搭建漏洞复现
+----docker-compose
+---docker-compose是什么？
+--Docker Compose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不
+再需要使用shell脚本来启动容器。
+
+---安装
+--1.安装pip:curl-s https://bootstrap.pypa.io/get-pip.py | python3
+--2.安装docker-compose：pip3 install docker-compose
+
+----vulhub:https://vulhub.org/
+---开启靶场容器：docker-compose up -d
+---关闭靶场容器：docker-compose down
+
+
+

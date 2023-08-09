@@ -1,0 +1,13 @@
+**HTTP超文本传输协议
+##请求头
+----Host：请求主机域名/IP地址
+---HOST:www.hetianlab.com
+----User-Agent:告诉服务器浏览器的版本信息，供服务器解决浏览器兼容问题
+---User-Agent:Mozilla/5.0(Windows NT 10.0;Win64;x64)AppleWebKit/537.36(KHTML,like Gecko)Chrome/89.0.4389.90 Safari/537.36
+----Accept：传输文件类型
+---Accept:text/html,applicantion/xhtml+xml,application/xml
+----Referer:告诉服务器从哪里来
+---Referer:https://www.hetianlab.com/
+----Cookie：储存在用户本地终端上的数据
+---Cookie:ccf3a130053aa89a7bd8e882378f53bda224924636fba20
+

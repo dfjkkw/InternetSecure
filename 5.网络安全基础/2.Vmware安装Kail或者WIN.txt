@@ -1,0 +1,20 @@
+**Vmware安装
+
+##下载Vmware
+----Vmware安装：https://www.vmware.com/
+
+**Kail安装
+##Kali简介
+----Kali Linux是基于Debian的Linux发行版，旨在进行高级渗透测试和安全审核。Kail包含数百种工具，可用于各种信息安全任务，例如渗透
+测试、安全研究、计算机取证和逆向工程。Kail Linux由领先的信息安全培训公司Offensive Security开发、资助和维护。
+##为什么使用Kali?
+----1.包括600多个渗透测试工具：http://tools.kali.org/tools-listing
+----2.完全免费
+----3.多语言(中文)
+----······
+----Kali官网：https://www.kali.org/
+
+**Windows安装
+----msdn下载
+
+

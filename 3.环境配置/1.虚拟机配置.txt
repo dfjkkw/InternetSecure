@@ -1,0 +1,22 @@
+**搭建渗透测试攻击环境
+
+##Vmware workstation pro
+----功能强大的桌面虚拟计算机软件，能够让用户在单一主机同时运行多个不同的操作系统
+----同时支持实时快照，虚拟网络，拖拽文件等强悍功能
+----为什么不选择物理机安装？
+---物理机不方便，妨碍正常电脑功能
+---虚拟机不会有太大的性能折损
+---虚拟机安全、方便、易恢复、易迁移、易拓展硬件
+##下载
+----Vmware官网：https://www.vmware.com/
+---https://my.vmware.com/cn/web/vmware/downloads/info/slug/desktop_end_user_computing/vmware_workstation_pro/16_0
+----MAC版本VMwareFusion:
+---https://customerconnect.vmware.com/cn/downloads/info/slug/desktop_end_user_computing/vmware_fusion/12_0
+
+##激活
+----VMware Workstation Pro 16 许可证密钥，批量永久激活
+---ZF3R0-FHED2-M80TY-8QYGC-NPKYF
+---YF390-0HF8P-M81RQ-2DXQE-M2UT6
+---ZF71R-DMX85-08DQY-8YMNC-PPHV8
+
+

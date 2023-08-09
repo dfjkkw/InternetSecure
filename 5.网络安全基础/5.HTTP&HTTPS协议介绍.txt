@@ -1,0 +1,187 @@
+**HTTP协议简介
+
+##什么是HTTP？
+----超文本传输协议(HyperText Transfer Protocol,缩写：HTTP)是一种分布式、协作式和超媒体信息系统的应用层协议。
+----HTTP(HyperText Transfer Protocol，超文本传输协议)，是一种基于请求与响应，无状态的、应用层的协议，常基于TCP/IP协议传输数
+据，互联网上应用最广泛的一种网络协议，所有的WWW文件都必须遵守这个标准。
+----设计HTTP的初衷是为了提供一种发布和接收HTML页面的方法。
+
+##HTTP发展历史
+版本         产生时间                            内容                                           发展现状
+HTTP/0.9     1991年        不涉及数据包传输规定客户端和服务器之间的通信格式，只能GET请求        没有作为正式的标准
+HTTP/1.0     1996年        传输内容格式不限制，增加PUT、PATCH、HEAD、OPTIONS、DELETE命令　　　 正是作为标准
+HTTP/1.1     1997年        持久连接(长连接)、节约带宽、HOST域、管道机制、分块传输编码           2015年前使用最广泛
+HTTP/2       2015年        多路复用、服务器推送、头信息压缩、二进制协议等                       逐渐覆盖市场
+
+##HTTP工作流程
+----客户端通过TCP三次握手与服务器建立连接。
+----TCP建立连接成功后，向服务器发送HTTP请求。
+----服务器收到HTTP请求后，向客户端发送HTTP响应。
+----客户端通过TCP四次断开，与服务器断开TCP连接。
+----什么是B/S、C/S架构
+---C/S(Client/Server)客户机和服务器结构
+---B/S(Brower/Server)浏览器和服务器结构
+----在HTTP 0.9和1.0中，TCP连线在每一次请求/回应对之后关闭。
+----在HTTP 1.1中，引入了保持连线的机制，一个连接可以重复在多个请求/回应使用。
+----持续连线的方式可以大大减少等待时间，因为在发出第一个请求后，双方不需要重新运行TCP握手程序。
+
+##统一资源定位符(URL)
+----URL(统一资源定位符)：我们常说的网址，包含了用于查找资源的足够的信息，而一个完整的URL包含下面几部分：
+---http://  协议方案名
+---user:pass   登录信息（认证）
+---@
+---www.example.jp:  服务器地址
+---80   服务器端口号
+---/dir/index.htm  带层次的文件路径
+---？
+---uid=1   查询字符串
+---#ch1   片段标识符
+
+##统一资源标志符（URI）
+----URI(Universal Resource Identifier 统一资源标志符)，用来标识抽象或物理资源的一个紧凑字符串。
+----HTTP是基于客户端/服务端(C/S)的架构模型，通过一个可靠的链接来交换信息，是一个无状态的请求/响应协议。
+----HTTP使用统一资源标志符(Universal Resource Identifier,URI)来传输数据和建立连接。
+----URI和URL的区别：URL是URI的一个子集
+----URN=Universal Resource Name 统一资源名称，通过命名空间中的唯一名称或ID来标识资源，是URI的子集。
+
+##下面哪些是URL
+----ftp://ftp.heetian.com/rcf/rcf1808.txt   对
+----http://www.heetian.com/rfc/rfc2396.txt  对
+----ldap://[2001:db8::7]/c=GB?objectClass?one   对
+----mailto:John.Doe@heetian.com   对
+----news:comp.infosystem.www.heetian.com   对
+----tel:+1-816-555-1212      错
+----telnet://192.0.2.16:80/    对
+----urn:oasis:names:specification:docbook:dtd:xml:4.1.2  错
+
+##客户端请求信息
+----HTTP请求报文：web客户端向服务器发送的请求
+----HTTP请求由四个部分组成
+---请求行
+--Method Request-URL HTTP-Version CRLF
+-Method:表示请求方式
+-Request-URL：是一个统一资源标识符
+-HTTP-Version ：表示请求的HTTP协议版本
+-CRLF：表示回车和换行
+---请求头部（Request Header Fields）
+--Header：Header_value CRLF
+--允许客户端传递关于自身的信息和希望的响应格式
+--在HTTP/1.1协议中，所有的请求头，除Host外，都是可选的
+客户端请求消息
+Header头后                   解释                                                              示例
+Host               指定请求的服务器的域名和端口号                                         Host:hetianlab.com
+Conlenl-Length     请求的内容长度                                                       Conlent-Length:316
+Accept             指定客户端能够接收的内容类型                                          Accept:application/json,text/javascript,*/*,q=0.01
+X-Requested-With   Ajax异步请求                                                         X-Requested-With:XMLHttpRequest
+User-Agent         包含发出请求的用户信息                                                User-Agent:Mazilla/5.0 (Windows NT 10.0;Win64;x64)
+Content-Type       请求的与实体对应的MIME信息                                            Content-Type:application/x-www-form-urlencoded;charset=UTF-B
+Origin             指明当前请求来自于哪个站点                                            Origin:http://hatianlab.com
+Referer            先前网页的地址，当前请求同页紧随其后                                   Referer:http://hetianlab.com/loginLab.do
+Accept-Encoding    指定浏览器可支持的web服务器返回内容压缩编码类型                         Accept-Encoding:gzip,deflate
+Accept-Language    浏览器可接受的语言                                                    Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-Us;q=0.6
+Cookie             HTTP请求发送时，会把保存在该请求域名下的所有cookie值一超发送给web服务器  Cookie:JSESSIONID=68C618EFCAE4530CAF6A1684E082053Ejvm0
+Connection         表示是否需要持久连接                                                   Connection:close
+---空行
+--表示请求头结束，请求正文(请求体)开始
+---请求数据
+--GET方法：提交数据时，数据参数会做为URL的一部分放在文件路径后面f发送给服务器，被称为查询字符串
+--http://www.hetianlab.com?username=12345%40qq.com&password=2f7402f······a592b&validateCode=&rtnJson=true
+--POST方法:发送的数据在请求体中
+--username=12345%40qq.com&password=2f7402f······a592b&validateCode=&rtnJson=true
+
+##服务器响应消息
+----HTTP响应报文：在接收和解释请求消息后，服务器返回一个HTTP响应消息
+----HTTP响应也由四个部分组成，分别是：
+---状态行
+--HTTP-Version Status-Code Reason-Phrase CRLF
+-HTTP-Version ：表示服务器HTTP协议的版本
+-Status-Code ：表示服务器发回的响应状态代码
+-Reason-Phrase：表示状态代码的文本描述
+--状态码
+-状态代码有三位数字组成，第一个数字定义了响应的类别,且有五种可能取值：
+-1xx:指示信息--请求已被服多器接收，继续处理
+-2xx:成功--请求已成功被服务器按收、理解、并接受
+-3xx:重定向--需要后续操作才能完成这一请求
+-4xx:客户端错误--请求有语法错误或请求无法实现
+-5xx:服务端错误--服务器在处理某个正确请求时发生错误
+--常见状态码
+200    OK   /客户端请求成功
+400 Bad Request/客户端请求有语法错误，不能被服务器所理解
+4O1 Unauthorized/请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用
+403 Forbidden  /服务器收到请求，但是拒绝提供服务
+404 Not Found  /请求资源不存在，eg：输入了错误的URL
+500 Internal Server Error/服务器发生不可预期的错误
+503 Server Unavailable/服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+---消息报头
+--响应头部字段(Response Header Fields)
+-响应报头允许服务器传递不能放在状态行中的附加响应信息，以及关于服务器的信息和Rquest-URI所标识的资源进行下一步访问的信息。
+Header头部                     解释                                                     示例
+Server                    web服务器软件名称                                       Server.nginx/1.5.6
+Date                      原始服务器消息发出的时间                                 Date:Mon,23 Mar 2020 03:57:16 GMT
+Content-Type              返回内容的MIME类型                                      Content-Type:text/html
+Set-Cookie                设置Http Cookie                                        Set-Cookie:JSESSIONID=68C6..053E.jvmo;Path=/;
+Content-Length            响应体的长度                                            Content-Length:12
+ETag                      请求变量的实体标签的当前值                               ETag:W/"91092-1583487900000"
+Refresh                   应用于重定向或一个新的资源披创造                          Refresh:5;url=http://www.zcmhi.com/archives/94.html
+WWW-Authenticate          表明客户端请求实体应该使用的授权方案                      WWW-Authenticate:Basic
+Allow                     对某网络资源的有效的请求行为，不允许则返回405              Allow:GET,HEAD
+Content-Type              返回内容的MIME类型                                       Content-Type:application/json;charset=UTF-8
+Location                  用来重定向接收方到非请求URL的位置来完成请求或标识新的资源   Location:http://hetianlab.com/loginLab.do
+---空行
+--表示请求头结束，请求正文(请求体)开始
+---响应正文
+--服务器返回的资源内容   {"result":"success","message":null}
+
+##HTTP请求方法理解-GET
+----GET：获取/查询资源
+----不包含请求主体
+
+##HTTP请求方法理解-POST
+----POST：在Request-URI所标识的资源后附加新的数据
+----用于向指定资源发送数据，指定的资源会对数据进行处理，然后将处理结果返回给客户端，一般用于表单提交、文件上传
+
+##HTTP请求方法理解-HEAD
+----HEAD：请求获取由Request-URI所标识的资源的响应消息报头首部，不会返回报文主体
+
+##HTTP请求方法理解-OPTIONS
+----OPTIONS：查询资源支持的方法
+
+##HTTP请求方法理解-PUT
+----PUT：请求服务器存储一个资源，并用Request-URI作为标识
+----服务器会将请求主体的内容保存到URL指定的资源位置，包含两种情况：
+---1.URL指定的资源不存在，服务器会新建一个文件，将请求主体中的内容保存到新建的文件里，响应码为201.
+---2.URL指定的资源存在，服务器会重置文件内容，用请求主体中的内容覆盖原文件的内容，响应码为200或204.
+
+##HTTP请求方法理解-DELETE
+----DELETE：请求服务器删除Request-URI所标识的资源
+
+##HTTP请求方法理解
+----TRACE：路径追踪，请求服务器回送收到的请求信息，主要用于测试或诊断发送的请求 是否在客户端与服务端之间传送时被网关、防火墙、代
+理更改。
+
+**HTTPS协议简介
+
+##HTTPS简介
+----全称：Hyper Text Transfer Protocol over Secure Socket Layer，就是HTTP的安全版，再通俗点就是身披SSL外壳的HTTP。
+----HTTPS=HTTP+SSL/TLS
+----HTTPS是一种通过计算机网络进行安全通信的传输协议，经由HTTP进行通信，利用SSL/TLS建立全信道，加密数据包。HTTPS使用的主要目的
+是提供对网站服务器的身份验证，同时保护交换数据的隐私与完整性。
+
+##HTTPS特点
+----内容加密：采用混合加密技术，中间者无法直接查看明文内容
+----验证身份：通过证书认证客户端访问的是自己的服务器
+----保护数据完整性：防止传输的内容被中间人冒充或者篡改
+
+##HTTP与HTTPS比较
+----HTTPS协议
+---优点
+--防止流量劫持
+--增加了中间人攻击的成本
+--加密传输，防窃听篡改，保证数据完整性
+---缺点
+--收费，功能越强大的证书费用越高
+--费时，打开加载页面变慢
+--消耗资源，加密会消耗CPU和内存资源
+
+
+

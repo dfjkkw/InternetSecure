@@ -1,0 +1,67 @@
+**DVWA之文件上传漏洞
+##File Upload low——防御
+----防御文件上传的方法各种各样
+---限制文件上传类型(不让上传php文件、只允许上传图片)
+---给上传的文件重命名，让攻击者找不到自己传的文件在哪
+---限制文件上传大小
+---压缩上传文件
+---把上传的文件存储在文件服务器或oss平台(没存在原本的服务器上，传了也没用)
+
+##File Upload medium——防御
+----主要防御代码
+// File information       
+    $uploaded_name = $_FILES[ 'uploaded' ][ 'name' ];//获取上传的文件名
+    $uploaded_type = $_FILES[ 'uploaded' ][ 'type' ];//获取上传的文件类型
+    $uploaded_size = $_FILES[ 'uploaded' ][ 'size' ];//获取上传的大小
+
+    // Is it an image?   //限制上传的文件类型必须是，jpeg或png
+    if( ( $uploaded_type == "image/jpeg" || $uploaded_type == "image/png" ) &&
+        ( $uploaded_size < 100000 ) )//限制上传的文件大小必须小于100000Byte/字节
+
+##File Upload high——防御
+----主要防御代码
+// File information
+    $uploaded_name = $_FILES[ 'uploaded' ][ 'name' ];//获取上传的文件名
+    $uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, '.' ) + 1);//获取上传的文件后缀名
+    $uploaded_size = $_FILES[ 'uploaded' ][ 'size' ];//获取上传的文件的大小
+    $uploaded_tmp  = $_FILES[ 'uploaded' ][ 'tmp_name' ];//获取上传文件保存在服务器临时文件夹的文件名
+
+    // Is it an image?                  //限制上传的文件类型必须是，jpeg或png或ipg
+    if( ( strtolower( $uploaded_ext ) == "jpg" || strtolower( $uploaded_ext ) == "jpeg" || strtolower( $uploaded_ext ) == "png" ) &&
+        ( $uploaded_size < 100000 ) &&   //限制上传的文件大小必须小于100000Byte/字节
+        getimagesize( $uploaded_tmp ) )  //获取图像大小及相关信息，限制上传的必须是图片
+----渗透测试解决方法
+---用真实的图片做木马，并上传
+---copy /b 1.jpg+webshell.php 2.jpg
+---上传jpg图片访问只会打开图片，不会解析webshell
+---解决办法之一：
+--利用DVWA的文件包含漏洞组合利用[文件包含会把读取的文件当作PHP代码执行]
+--http://127.0.0.1/DVWA/vulnerabilities/fi/?page=file:///D:/PhpStudy/PHPTutorial/WWW/DVWA/hackable/uploads/2.jpg
+--蚁剑连接
+--因DVWA需要登录，故要在请求信息中加入cookie信息[浏览器F12能看到]
+
+##File Upload impossible——防御
+----主要防御代码
+$temp_file    .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . '.' . $uploaded_ext;//更改文件名
+
+    // Is it an image?
+    if( ( strtolower( $uploaded_ext ) == 'jpg' || strtolower( $uploaded_ext ) == 'jpeg' || strtolower( $uploaded_ext ) == 'png' ) &&
+        ( $uploaded_size < 100000 ) &&
+        ( $uploaded_type == 'image/jpeg' || $uploaded_type == 'image/png' ) &&
+        getimagesize( $uploaded_tmp ) ) {
+
+        // Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)
+        if( $uploaded_type == 'image/jpeg' ) {  //对图像重新处理并生成新的图像，压缩图像
+            $img = imagecreatefromjpeg( $uploaded_tmp );
+            imagejpeg( $img, $temp_file, 100);
+        }
+        else {
+            $img = imagecreatefrompng( $uploaded_tmp );
+            imagepng( $img, $temp_file, 9);
+        }
+        imagedestroy( $img ); 
+---1.imagejepg将原本的图片重新编码创建一个新的JEPG图像，最后0-100代表清晰度，0质量最差，100质量最好
+---2.imagepng将原本的图片重新编码创建一个新的png图像
+----high的过滤验证解决了上传不是图片的问题，impossible更是让服务器重新生成图片，从根本上完全避免了图片马等其他变形后门。其他后
+端语言也可实现相应算法。
+

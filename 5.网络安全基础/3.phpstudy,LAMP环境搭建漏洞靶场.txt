@@ -1,0 +1,103 @@
+**资源
+----1、http://hetianlab.com/pages/search.html?wk=linux
+----2、https://www.runoob.com/linux/linux-tutorial.html
+----3、https://www.w3cschool.cn/linux/
+----4、http://c.biancheng.net/linux_tutorial/
+----5、https://man.linuxde.net/
+----6、https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md
+----7、https://github.com/dunwu/linux-tutorial/tree/master/docs
+----8、https://www.linuxprobe.com/club
+----9、https://legacy.gitbook.com/book/wizardforcel/kali-linux-web-pentest-cookbook/details
+----10、多敲多用多查
+
+**LANMP安装
+
+##LANMP简介
+----LANMP是指一组通常用来搭建动态网站或者服务器的开源软件，本身都是各自独立的程序，但是因为常被放在一起使用，拥有了越来越高的兼
+容度，共同组成了一个强大的Web应用程序平台。
+----L：指Linux，一类Unix计算机操作系统的统称，常用的比如：centos，debian，ubuntu，redhat等
+----A：指Apache，网页服务器
+----N：指Nginx，一个高性能的HTTP
+----M：指Mysql、Mariadb等数据库管理系统或数据库服务器
+----P：一般指PHP、Perl、Python等脚本语言
+----LAMP：Linux+Apache+Mysql+PHP
+----LANMP：Linux+Apache+Nginx+Mysql+PHP
+
+##Nginx和Apache区别
+----Nginx：是一个高性能的HTTP和反向代理服务器·也是一个IMAP/POP3/SMTP代理服务器。是一个小巧而高效的Linux下的Web服务器软件，性
+能稳定、功能丰富、运维简单、处理静态文件速度快且消耗系统资源极少。
+----Apache：Apache是目前最流行的Web应用服务器，占据了互联网应用服务器70%以上的份额。它免费、稳定且性能卓越，几乎可以运行在所有
+的计算机平台上，简单而且强有力的基于文件的配面(httpd.conf),主要用来处理动态页面请求·
+----现在通常使用的一个搭配是LANMP，Apache作为后台服务器处理php及一些功能动态请求，Nginx作为前端服务器·利用其占用系统资源少的优
+势来处理静态页面大量请求。
+
+##Kali搭建LAMP
+----安装apache
+---apt install apache2 -y
+---service apache2 status 查看开启状态
+---service apache2 start  启动
+----安装mysql
+---apt install mariadb mariadb-server -y
+----安装php
+---apt -y install php7.0 php-pear libapache2-mod-php7.0 php7.0-mysql php7.0-curl php7.0-json php7.0-cgi php7.0-gd
+
+##Kali移除LAMP
+----卸载mariadb
+---apt autoremove --purge mariadb mariadb-server
+---apt remove mariadb mariadb-server
+---apt remove mysql-common
+
+---dpkg -l |grep ^rc|awk '{print$2}' |sudo xargs dpkg -P
+---sudo find /etc -name "*mysql*" |xargs rm -rf
+
+----卸载apache
+---sudo apt-get --purge remove apache-common
+---sudo apt-get --purge remove apache
+---sudo find /etc-name "*apache*" |xargs rm-rf
+---sudo rm-rf /var/www
+---sudo rm-rf /etc/libapache2-mod-jk
+---sudo rm-rf /etc/init.d/apache2
+---sudo rm-rf /etc/apache2
+---dpkg-l |grep apache2|awk'{print $2}'|xargs dpkg-P
+
+----卸载Php
+---apt --purge remove libapache2-mod-php7 php7 php7-gd php7-mysql
+---apt autoremove php7
+---sudo find/etc -name "*php*" |xargs rm -rf
+---dpkg -l |grep^rc|awk ' {print$2}' |sudo xargs dpkg -P
+---最后用dpkg -l | grep php 和 dpkg -l|grep php5 检查，如无返回即卸载干净
+
+**DVWA漏洞靶场部署
+##LAMP部署DVWA
+----DVWA是一个易受攻击的PHP/MYSQL web应用程序。其主要目的是帮助安全专业人员在法律允许的环境中测试他们的技能和工具，帮助Web开发
+人员更好地了解保护Web应用程序的过程，以及帮助教师/学生在课堂环境中教授/学习Web应用程序安全性知识。
+----DVWA官网：http://www.dvwa.co.uk/
+----下载DVWA：https://github.com/ethicalhack3r/DVWA/archive/master.zip
+----unzip DVWA-master.zip
+----mv DVWA-master /var/www/html/dvwa
+----cd /var/www/html/dvwa
+----apt install -y php-gd php7.3-mysql php7.3-pdo
+----create user 'dvwa'@'localhost' IDENTIFIED BY ";
+----GRANT ALL PRIVILEGES ON *.* to 'dvwa'@'localhost';
+----flush privileges;
+
+**操作
+##设置开机自己启动
+----systemctl start apache2
+----systemctl enable apache2
+
+**安装PHPstudy
+
+##Windows安装PHPstudy
+----phpstudy是一个PHP调试环境的程序集成包。支持Web端管理，一键创建网站、FTP、数据库、SSL，安全管理，计划任务，文件管理，PHP多版本共存及切换；自带LNMP与LAMP
+----phpstudy官网：https://www.xp.cn/
+----phpstudy下载：https://www.xp.cn/download.html
+
+##phpstudy部署DVWA
+----把dvwa源码放到网站根目录访问即可
+
+
+
+
+
+

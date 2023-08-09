@@ -1,0 +1,61 @@
+**HTTP超文本传输协议
+##请求消息——request
+----GET/pages/jointLaboratory.jsp HTTP/1.1
+----HOST:www.hetianlab.com
+----User-Agent:Mozilla/5.0(Windows NT 10.0;Win64;x64)
+----AppleWebKit/537.36(KHTML,like Gecko)
+----Chrome/89.0.4389.90 Safari/537.36
+----Accept:text/html,applicantion/xhtml+xml,application/xml
+----Referer:https://www.hetianlab.com/
+----Accept-Encoding:gzip,deflate,br
+----Accept-Language:zh-CN,zh;q=0.9,la;q=0.8,en;q=0.7
+
+----例如：
+          浏览器请求服务器 request 请求消息
+浏览器——————————————————————————————————————————————————>服务器
+          http://www.hetianlab.com/pages/hetianlab.jsp
+
+----1.请求行
+请求方式           请求uri                 协议及版本
+GET       /pages/jointLaboratory.jsp       HTTP/1.1
+----2.请求头
+---HOST:www.hetianlab.com
+---User-Agent:Mozilla/5.0(Windows NT 10.0;Win64;x64)
+---AppleWebKit/537.36(KHTML,like Gecko)
+---Chrome/89.0.4389.90 Safari/537.36
+---Accept:text/html,applicantion/xhtml+xml,application/xml
+---Referer:https://www.hetianlab.com/
+---Accept-Encoding:gzip,deflate,br
+---Accept-Language:zh-CN,zh;q=0.9,la;q=0.8,en;q=0.7
+----3.请求空行
+这里就是给空行
+----4.请求体
+
+##请求方式
+----HTTP常见有八种(所以不知八种)请求方式，常用GET、POST
+----GET请求：请求参数在URL地址中，URL有长度限制，GET请求只能传输字符数据
+----例如：
+---GET/pages/search.html?wk=111 HTTP/1.1
+---HOST:www.hetianlab.com
+---User-Agent:Mozilla/5.0(Windows NT 10.0;Win64;x64)
+---AppleWebKit/537.36(KHTML,like Gecko)
+---Chrome/89.0.4389.90 Safari/537.36
+---Accept:text/html,applicantion/xhtml+xml,application/xml
+---Referer:https://www.hetianlab.com/
+---Accept-Encoding:gzip,deflate,br
+---Accept-Language:zh-CN,zh;q=0.9,la;q=0.8,en;q=0.7
+----POST请求：请求参数在请求体中，无大小限制，POST请求可以传输字符或字节数据
+----例如：
+---POST/pages/search.html HTTP/1.1
+---HOST:www.hetianlab.com
+---User-Agent:Mozilla/5.0(Windows NT 10.0;Win64;x64)
+---AppleWebKit/537.36(KHTML,like Gecko)
+---Chrome/89.0.4389.90 Safari/537.36
+---Accept:text/html,applicantion/xhtml+xml,application/xml
+---Referer:https://www.hetianlab.com/
+---Accept-Encoding:gzip,deflate,br
+---Accept-Language:zh-CN,zh;q=0.9,la;q=0.8,en;q=0.7
+---Content-Type:application/x-www-from-urlencoded
+
+---wk=111
+

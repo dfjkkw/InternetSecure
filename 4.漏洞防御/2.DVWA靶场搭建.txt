@@ -1,0 +1,17 @@
+##DVWA靶场搭建
+----DVWA是OWASP官方编写的PHP网站，包含了各种网站常见漏洞，可以学习攻击及修复方式
+
+----一个好的靶场，是黑客和网络安全从业者最方便和安全的磨刀石
+
+##DVWA搭建
+----PHP环境：WAMP(Windows Apache Mysql Php)
+----DVWA源代码：https://github.com/digininja/DVWA/archive/master.zip
+
+##六步快速搭建DVWA
+----1.下载并安装PHPstudy:http://public.xp.cn/upgrades/PhpStudy2018.zip
+----2.将解压后的DVWA源代码放置phpstudy安装目录的WWW文件夹
+----3.进入DVWA/config目录，将config.inc.php.dist最后的.dist删去
+----4.打开刚刚重命名的config.inc.php文件，修改db_user和db_password (root  root)
+----5.浏览器访问http://127.0.0.1/DVWA/setup.php，点击最下方的CreateDatabase
+----6.浏览器访问http://127.0.0.1/DVWA/，输入用户名admin，密码password登录dvwa
+

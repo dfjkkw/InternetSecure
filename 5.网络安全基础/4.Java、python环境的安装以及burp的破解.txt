@@ -1,0 +1,63 @@
+**Java环境安装
+##Windows安装JDK8
+----下载JDK8：http://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+----配置PATH变量
+----变量：Java_Home
+----值：C:\Program Files\Java
+----变量:CLASSPATH
+----值：%Java_Home%\jdk1.8.0_241\bin;%Java_Homols.jar
+----变量：Path
+----值：%Java_Home%\jdk1.8.0_241\bin
+------%Java_Home%\jre1.8.0_241\bin
+
+##Linux安装JDK8
+----包管理器安装
+---yum -y list java*
+---yum install java-1.8.0-openjdk* -y
+----源码安装
+---mdkir /usr/java
+---cd /usr/java
+---tar -zxvf jdk-8u241-linux-x64.tar.gz
+---mv jdk-1.8._241 jdk8
+----vim /etc/profile  #编辑profile配置文件，添加如下内容
+---export JAVA——HOME=/usr/java/jdk8
+---export JRE_HOME=${JAVA_HOME}/jre
+---export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib:$CLASSPATH
+---export JAVA_PATH=${JAVA_HOME}/bin:${JRE_HOME}/bin
+---export PATH=$PATH:${JAVA_PATH}
+----验证安装
+---sourse /etc/profile
+---java --version
+
+**python环境安装
+
+##Windows安装Python3
+----Microsoft Store安装python3
+----python官网下载安装程序
+---https://www.python.org/ftp/python/3.7.7/python-3.7.7-amd64.exe
+---Customize installation
+--自定义安装pip、IDLE、安装路径等
+
+##Linux安装Python3
+----mkdir -p /usr/local/python3
+----yum -y install wget gcc libffi-devel
+----wget https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz
+----tar -zxf Python-3.7.7.tgz
+----cd Python-3.7.7
+----./configure --prefix=/usr/local/python3
+----make && make install
+----In -s/usr/local/python3/bin/python3/usr/bin/python3
+----yum -y install python3-pip
+----将/usr/local/python3/bin加入PATH：
+---vim /etc/profile
+---PATH=$PATH:/usr/local/python3/bin
+
+**Burpsuite安装
+##下载Burpsuite
+----链接：https//pan.baidu.com/s/1i_MUH5GHSlj157Muu6Ql1A
+----提取码：ztcj
+----运行StartBurp-17.31.vbs即可启动Burpsuite
+
+
+
+

